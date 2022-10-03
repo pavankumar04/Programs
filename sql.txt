@@ -1,0 +1,123 @@
+-- drop database team6;
+
+ 
+
+create database Team6;
+use Team6;
+
+ 
+
+ 
+
+ 
+
+create table guest(
+guestId int primary key,
+firstName varchar(50) not null,
+lastName varchar(50) not null,
+address varchar(50) not null,
+Phone varchar(12) not null,
+email varchar(50) not null,
+wallet int,
+Passcode varchar(50) not null
+);
+
+ 
+
+ 
+
+ 
+
+create table hotel(
+hotelId int primary key,
+hotelName varchar(50) not null,
+hotelAddress varchar(50) not null,
+hotelPhoneNo varchar(12) not null,
+hotelLocation varchar(50) not null,
+description varchar(100) not null
+);
+
+ 
+
+ 
+
+ 
+
+create table room(
+roomId int primary key,
+hotelId int not null,
+roomType varchar(50) not null,
+roomCost double not null,
+-- roomAvailability varchar(50) not null
+roomAvailability boolean 
+);
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+create table booking(
+bookingId int primary key,
+noOfGuest int not null,
+bookingStatus enum ("BOOKED","REJECTED","PLACED","CANCELLED") default "PLACED",
+totalAmount double not null,
+totalDays int not null,
+bookingDate date not null,
+checkInDate date not null,
+checkOutDate date not null,
+guestid int not null,
+hotelId int not null,
+roomId int not null,
+discount varchar(50)
+);
+
+ 
+
+ 
+
+ 
+
+
+create table admin(
+adminId int primary key,
+firstName varchar(50) not null,
+lastName varchar(50) not null,
+email varchar(50) not null,
+passcode varchar(50) not null
+);
+
+ 
+
+ 
+
+ 
+
+
+alter table booking add constraint fkb_hotelId foreign key (hotelId)references hotel(hotelId) ;
+alter table booking add constraint fkb_roomId foreign key (roomId)references room(roomId) ;
+alter table booking add constraint fkb_guestId foreign key (guestId)references guest(guestId) ;
+alter table room add constraint fkr_hotelId foreign key (hotelId)references hotel(hotelId) ;
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+insert into guest values(101, 'Harshil', 'Dedhia', 'Kandivali west, Mumbau', 5555222245, 'harshil@gmail.com', 555, 'harshil@123' );
+insert into hotel values(201, 'Sahara Star', 'International Airport, Santacruz', 1111112222, 'Mumbai', '5 Star Luxurious Hotel');
+insert into hotel values(3, 'Four Points', 'Rajpur Road, Dehradun', 1245789632, 'Uttarakhand', '5 Star Luxurious Hotel');
+insert into room values(301, 201, 'Double Deluxe', 4000, true);
+insert into booking values(401, 2, 'booked', 3600, 2, '2022-09-21', '2022-09-26', '2022-09-27',101, 201, 301, 400);
+insert into admin values(501, 'admin', 'admin', 'admin@abc.com', 'admin@123');
